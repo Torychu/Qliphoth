@@ -45,6 +45,10 @@ public class DicApp extends JFrame implements ActionListener {
 		
 		
 	}
+	
+	public static void main(String[] args) {
+		new DicApp();
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
