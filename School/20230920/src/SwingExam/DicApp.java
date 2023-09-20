@@ -59,10 +59,10 @@ public class DicApp extends JFrame implements ActionListener {
 			}
 			
 			if(dic.containsKey(eText)) {
-				ta.append("변경 (" + eText + "," + kText + ")\n"));
+				ta.append("변경 (" + eText + "," + kText + ")\n");
 				dic.put(eText, kText);
 			} else {
-				ta.append("삽입 (" + eText + "," + kText + ")\n"));
+				ta.append("삽입 (" + eText + "," + kText + ")\n");
 				dic.put(eText, kText);
 				
 				int count = Integer.parseInt(countLabel.getText());
@@ -71,5 +71,7 @@ public class DicApp extends JFrame implements ActionListener {
 		} else if (e.getSource() == searchBtn) {
 			String kText = dic.get(eng.getText());
 			kor.setText(kText);
+		}
 	}
 }
+
