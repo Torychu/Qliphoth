@@ -1,6 +1,10 @@
 package swingTalk;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -8,10 +12,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
-public class SelectRGB extends JDialog{
+public class SelectRGB extends JDialog implements AdjustmentListener, ActionListener{
 	JLabel label_r, label_g, label_b,sample;
 	JButton btnOK, btnNo;
 	JScrollBar RS,GS,BS;
+	
+	Boolean changeColor = false;
 	
 	SelectRGB(){
 		setTitle("RGB값을 조절하여 배경색을 선택하세요");
@@ -49,7 +55,41 @@ public class SelectRGB extends JDialog{
 		btnNo.setBounds(400,150,80,20);
 		p0.add(btnOK);
 		p0.add(btnNo);
+		
+		btnOK.addActionListener(this);
+		btnNo.addActionListener(this);
+		
+		RS.addAdjustmentListener(this);
+		GS.addAdjustmentListener(this);
+		BS.addAdjustmentListener(this);
+		
 		setVisible(true);
 
 	}
+
+
+	@Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==btnOK) {
+            changeColor = true;
+            setVisible(false);
+        } else if(e.getSource()==btnNo) {
+            changeColor = false;
+            setVisible(false);
+        }
+    }
+
+    @Override
+    public void adjustmentValueChanged(AdjustmentEvent e) {
+        if(e.getSource()==RS) {
+            label_r.setText(Integer.toString(RS.getValue()));
+        } else if(e.getSource()==GS) {
+            label_g.setText(Integer.toString(GS.getValue()));
+        } else if(e.getSource()==BS) {
+            label_b.setText(Integer.toString(BS.getValue()));
+        }
+
+        Color color = new Color(RS.getValue(), GS.getValue(), BS.getValue());
+        sample.setBackground(color);
+    }
 }
