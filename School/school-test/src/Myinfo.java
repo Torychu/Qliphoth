@@ -1,5 +1,6 @@
 import java.awt.Font;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -41,7 +42,6 @@ public class Myinfo extends JFrame{
 	private void 선생님_제공_기초화면() {
 		setTitle("수행평가 연습");
 		setBounds(0, 0, 450, 500);
-		setTitle("수행평가 연습");
 
 		p0 = new JPanel(null);
 		add(p0);
@@ -99,14 +99,48 @@ public class Myinfo extends JFrame{
 	
 	Myinfo() {
 		//1. JList에 항목을 추가하는 코드 생성
-		
+		for (int i = 0; i < 12; i++) {
+		    month[i] = i + 1;
+		}
+		for (int i = 0; i < 31; i++) {
+		    day[i] = String.valueOf(i + 1);
+		}
 		
 		//2. 라디오 버튼을 그룹에 추가하여 하나만 선택되도록 코드 생성
+		ButtonGroup genderGroup = new ButtonGroup();
+		genderGroup.add(radio_male);
+		genderGroup.add(radio_female);
 		
 		//화면 디자인
 		선생님_제공_기초화면();
 		
 		//3.이벤트(2개)
+		btnOk.addActionListener(e -> {
+		    // Get selected items from the JList
+		    String selectedYear = listYear.getSelectedValue();
+		    Integer selectedMonth = listMonth.getSelectedValue();
+		    String selectedDay = listDay.getSelectedValue();
+
+		    // Get the selected gender
+		    String selectedGender = radio_male.isSelected() ? "남자" : "여자";
+
+		    // Display the selected information in the sample label
+		    sample.setText(selectedYear + selectedMonth + selectedDay + " " + selectedGender);
+		});
+
+		// Event handling for the "취소" button
+		btnNo.addActionListener(e -> {
+		    // Reset the JList selections
+		    listYear.setSelectedIndex(0);
+		    listMonth.setSelectedIndex(0);
+		    listDay.setSelectedIndex(0);
+
+		    // Reset the radio button selection
+		    radio_male.setSelected(true);
+
+		    // Reset the sample label text
+		    sample.setText("20614 정윤환");
+		});
 		
 		//화면 보이기
 		setVisible(true);
