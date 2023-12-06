@@ -1,4 +1,6 @@
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -6,11 +8,14 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-public class Myinfo extends JFrame{
+public class Myinfo extends JFrame implements ActionListener, ListSelectionListener{
 	String[] year = {"2005","2006","2007","2008","2009"};
 	Integer[] month = new Integer[12];
 	String[] day  = new String[31];
@@ -107,42 +112,70 @@ public class Myinfo extends JFrame{
 		}
 		
 		//2. 라디오 버튼을 그룹에 추가하여 하나만 선택되도록 코드 생성
-		ButtonGroup genderGroup = new ButtonGroup();
-		genderGroup.add(radio_male);
-		genderGroup.add(radio_female);
+		ButtonGroup buttonGroup = new ButtonGroup();
+		buttonGroup.add(radio_male);
+		buttonGroup.add(radio_female);
 		
 		//화면 디자인
 		선생님_제공_기초화면();
 		
 		//3.이벤트(2개)
-		btnOk.addActionListener(e -> {
-		    // Get selected items from the JList
-		    String selectedYear = listYear.getSelectedValue();
-		    Integer selectedMonth = listMonth.getSelectedValue();
-		    String selectedDay = listDay.getSelectedValue();
+		listYear.addListSelectionListener(this);
+		listMonth.addListSelectionListener(this);
+		listDay.addListSelectionListener(this);
 
-		    // Get the selected gender
-		    String selectedGender = radio_male.isSelected() ? "남자" : "여자";
-
-		    // Display the selected information in the sample label
-		    sample.setText(selectedYear + selectedMonth + selectedDay + " " + selectedGender);
-		});
-
-		// Event handling for the "취소" button
-		btnNo.addActionListener(e -> {
-		    // Reset the JList selections
-		    listYear.setSelectedIndex(0);
-		    listMonth.setSelectedIndex(0);
-		    listDay.setSelectedIndex(0);
-
-		    // Reset the radio button selection
-		    radio_male.setSelected(true);
-
-		    // Reset the sample label text
-		    sample.setText("20614 정윤환");
-		});
+		radio_male.addActionListener(this);
+		radio_female.addActionListener(this);
+		btnOk.addActionListener(this);
+		btnNo.addActionListener(this);
 		
 		//화면 보이기
 		setVisible(true);
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// 선택이 바뀔때마다 변경된 값을 sample에 표시
+		changeSample();
+		
+		// 4.확인버튼, 취소버튼
+		if(e.getSource()==btnOk) {
+			if(check_agree.isSelected()==false)
+				JOptionPane.showMessageDialog(null, "개인 정보 제공에 동의 해주세요.");
+			else {
+				JOptionPane.showMessageDialog(null, "감사합니다.");
+				dispose();
+			}
+		}
+		else if(e.getSource()==btnNo) {
+			dispose();
+		}
+	}
+
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		// 선택이 바뀔때마다 변경된 값을 sample에 표시
+		changeSample();		
+		
+	}
+
+
+	private void changeSample() {
+		// 5. 함수 내부 작성하기
+		String y = listYear.getSelectedValue();
+		Integer m = listMonth.getSelectedValue();
+		String d = listDay.getSelectedValue();
+		
+		String info = "생년월일 : " + y + "년" + m + "월" + d + "일";
+		
+		if(radio_male.isSelected())
+			info = "성별 : " + "남자 " + info;
+		else if(radio_female.isSelected())
+			info = "성별 : " + "여자 " + info;
+			
+		sample.setText(info);
+		
 	}
 }
