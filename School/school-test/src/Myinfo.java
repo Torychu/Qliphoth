@@ -22,7 +22,7 @@ public class Myinfo extends JFrame{
 	//리스트 생성
 	JList<String> listYear = new JList<String>(year);
 	JList<Integer> listMonth = new JList<Integer>(month);
-	JList<String> listday = new JList<String>(day);
+	JList<String> listDay = new JList<String>(day);
 	
 	//라디오 버튼 생성
 	JRadioButton radio_male = new JRadioButton("남자");
@@ -94,6 +94,21 @@ public class Myinfo extends JFrame{
 	
 	
 	public static void main(String[] args) {
+		new Myinfo();
+	}
+	
+	Myinfo() {
+		//1. JList에 항목을 추가하는 코드 생성
 		
+		
+		//2. 라디오 버튼을 그룹에 추가하여 하나만 선택되도록 코드 생성
+		
+		//화면 디자인
+		선생님_제공_기초화면();
+		
+		//3.이벤트(2개)
+		
+		//화면 보이기
+		setVisible(true);
 	}
 }
